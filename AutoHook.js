@@ -53,12 +53,6 @@ function byte2hexstr(bytes){
 
 class autoHoo{
     olMap = new Map([['char[]','[C'],['byte[]','[B']]);
-    function2Str(tFunction){
-        var funcStr = tFunction.toString();
-        var index1 = funcStr.indexOf("function(){");
-        var index2 = funcStr.lastIndexOf("}");
-        return funcStr.substring(index1+11,index2);
-    }
     parseClassName(){
         var r = this.inputStr.indexOf("(");
         r = this.inputStr.substring(0,r).lastIndexOf(".");
@@ -84,15 +78,6 @@ class autoHoo{
     isHasRet(){
         return this.inputStr.indexOf("void") == -1?true:false;
     }
-    buildArgsStr(argsNum){
-        var argsStr = "";
-        for(var i = 0;i<argsNum;i++){
-            argsStr += "args" + i + ",";
-        }
-        return argsStr.substring(0,argsStr.length-1)
-    }
-   
-
     constructor(tInputStr, tFunction){
         this.inputStr = tInputStr.replace(/\s*/g,"");
         var tClassName = this.parseClassName();
@@ -109,7 +94,7 @@ class autoHoo{
                 return res;
             }else{
                 func.call(this,...args);
-                tFunction(...args);
+                tFunction(null,...args);
                 return;
             }
         }
